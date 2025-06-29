@@ -5,11 +5,7 @@ const today = new Date();
 <footer>
 	<div class="footer-content">
 		<p>&copy; {today.getFullYear()} JejeLena. All rights reserved.</p>
-		<div class="footer-links">
-			<a href="/privacy">Privacy Policy</a>
-			<span class="separator">•</span>
-			<a href="/terms">Terms of Service</a>
-		</div>
+
 	</div>
 </footer>
 <style>
@@ -26,21 +22,9 @@ const today = new Date();
 		align-items: center;
 		gap: 1em;
 	}
+
 	
-	.footer-links {
-		display: flex;
-		align-items: center;
-		gap: 1em;
-	}
-	
-	.footer-links a {
-		color: rgb(var(--gray));
-		text-decoration: none;
-	}
-	
-	.footer-links a:hover {
-		color: var(--accent);
-	}
+
 	
 	.separator {
 		color: rgb(var(--gray));
