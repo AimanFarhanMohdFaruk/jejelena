@@ -1,0 +1,171 @@
+---
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { SITE_TITLE } from '../../../consts';
+import { projects } from '../../../data/projects';
+
+export async function getStaticPaths() {
+	return projects.map(project => ({
+		params: { project: project.name },
+		props: { project }
+	}));
+}
+
+const { project } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Terms of Service - ${project.title} - ${SITE_TITLE}`} description={`Terms of Service for ${project.title}`} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<nav class="breadcrumb">
+				<a href="/">Home</a> / 
+				<a href="/projects">Projects</a> / 
+				<a href={`/projects/${project.name}`}>{project.title}</a> / 
+				<span>Terms of Service</span>
+			</nav>
+
+			<h1>Terms of Service - {project.title}</h1>
+			<p><em>Last updated: {new Date().toLocaleDateString()}</em></p>
+			
+			<div class="policy-content">
+				<h2>1. Acceptance of Terms</h2>
+				<p>
+					By accessing and using our {project.title} Google Workspace Add-on, you accept and agree to be bound by the terms and provision of this agreement. 
+					If you do not agree to abide by the above, please do not use this service.
+				</p>
+				
+				<h2>2. Description of Service</h2>
+				<p>
+					Our {project.title} Google Workspace Add-on provides additional functionality to enhance your Google Workspace experience. 
+					The specific features and capabilities are described in the add-on's documentation and may be updated from time to time.
+				</p>
+				
+				<h2>3. User Responsibilities</h2>
+				<p>As a user of our add-on, you agree to:</p>
+				<ul>
+					<li>Use the add-on only for lawful purposes and in accordance with these Terms</li>
+					<li>Not attempt to reverse engineer, decompile, or disassemble the add-on</li>
+					<li>Not use the add-on to transmit any harmful, offensive, or inappropriate content</li>
+					<li>Comply with all applicable laws and regulations</li>
+					<li>Maintain the security of your Google Workspace account</li>
+				</ul>
+				
+				<h2>4. Privacy and Data Protection</h2>
+				<p>
+					Your privacy is important to us. Our collection and use of personal information is governed by our 
+					<a href={`/projects/${project.name}/privacy-policy`}>Privacy Policy</a>, which is incorporated into these Terms by reference.
+				</p>
+				
+				<h2>5. Intellectual Property</h2>
+				<p>
+					The add-on and its original content, features, and functionality are and will remain the exclusive property of 
+					our company and its licensors. The add-on is protected by copyright, trademark, and other laws.
+				</p>
+				
+				<h2>6. Limitation of Liability</h2>
+				<p>
+					In no event shall we be liable for any indirect, incidental, special, consequential, or punitive damages, 
+					including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:
+				</p>
+				<ul>
+					<li>Your use or inability to use the add-on</li>
+					<li>Any unauthorized access to or use of our servers and/or any personal information stored therein</li>
+					<li>Any interruption or cessation of transmission to or from the add-on</li>
+					<li>Any bugs, viruses, or other harmful code that may be transmitted through the add-on</li>
+				</ul>
+				
+				<h2>7. Disclaimer of Warranties</h2>
+				<p>
+					The add-on is provided on an "AS IS" and "AS AVAILABLE" basis. We make no warranties, expressed or implied, 
+					and hereby disclaim all warranties, including without limitation:
+				</p>
+				<ul>
+					<li>That the add-on will meet your specific requirements</li>
+					<li>That the add-on will be uninterrupted, timely, secure, or error-free</li>
+					<li>That the results obtained from using the add-on will be accurate or reliable</li>
+					<li>That the quality of any products, services, information, or other material obtained through the add-on will meet your expectations</li>
+				</ul>
+				
+				<h2>8. Termination</h2>
+				<p>
+					We may terminate or suspend your access to the add-on immediately, without prior notice or liability, 
+					for any reason whatsoever, including without limitation if you breach the Terms.
+				</p>
+				
+				<h2>9. Changes to Terms</h2>
+				<p>
+					We reserve the right to modify or replace these Terms at any time. If a revision is material, 
+					we will try to provide at least 30 days notice prior to any new terms taking effect.
+				</p>
+				
+				<h2>10. Governing Law</h2>
+				<p>
+					These Terms shall be interpreted and governed by the laws of Malaysia, without regard to its conflict of law provisions.
+				</p>
+				
+				<h2>11. Contact Information</h2>
+				<p>
+					If you have any questions about these Terms of Service, please contact us at:
+				</p>
+				<div class="contact-info">
+					<p><strong>Email:</strong> your.email@example.com</p>
+					<p><strong>Website:</strong> <a href="/">https://yourwebsite.com</a></p>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.breadcrumb {
+		margin-bottom: 2em;
+		font-size: 0.9em;
+		color: rgb(var(--gray));
+	}
+	
+	.breadcrumb a {
+		color: var(--accent);
+		text-decoration: none;
+	}
+	
+	.breadcrumb a:hover {
+		text-decoration: underline;
+	}
+	
+	.policy-content {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	
+	.policy-content h2 {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+		color: var(--accent);
+	}
+	
+	.policy-content ul {
+		margin-bottom: 1.5em;
+	}
+	
+	.policy-content li {
+		margin-bottom: 0.5em;
+	}
+	
+	.contact-info {
+		background: rgba(var(--gray-light), 0.3);
+		padding: 1.5em;
+		border-radius: 8px;
+		margin: 1em 0;
+	}
+	
+	.contact-info p {
+		margin: 0.5em 0;
+	}
+</style> 

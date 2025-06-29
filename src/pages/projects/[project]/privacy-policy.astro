@@ -1,0 +1,154 @@
+---
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { SITE_TITLE } from '../../../consts';
+import { projects } from '../../../data/projects';
+
+export async function getStaticPaths() {
+	return projects.map(project => ({
+		params: { project: project.name },
+		props: { project }
+	}));
+}
+
+const { project } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Privacy Policy - ${project.title} - ${SITE_TITLE}`} description={`Privacy Policy for ${project.title}`} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<nav class="breadcrumb">
+				<a href="/">Home</a> / 
+				<a href="/projects">Projects</a> / 
+				<a href={`/projects/${project.name}`}>{project.title}</a> / 
+				<span>Privacy Policy</span>
+			</nav>
+
+			<h1>Privacy Policy - {project.title}</h1>
+			<p><em>Last updated: {new Date().toLocaleDateString()}</em></p>
+			
+			<div class="policy-content">
+				<h2>Introduction</h2>
+				<p>
+					This Privacy Policy describes how we collect, use, and protect your information when you use our {project.title} Google Workspace Add-on. 
+					We are committed to protecting your privacy and ensuring the security of your data.
+				</p>
+				
+				<h2>Information We Collect</h2>
+				<p>Our {project.title} Google Workspace Add-on may collect the following types of information:</p>
+				<ul>
+					<li><strong>Usage Data:</strong> Information about how you use the add-on, including features accessed and frequency of use</li>
+					<li><strong>Technical Data:</strong> Device information, browser type, and operating system</li>
+					<li><strong>Google Workspace Data:</strong> Only the data necessary for the add-on's functionality, as authorized by you</li>
+				</ul>
+				
+				<h2>How We Use Your Information</h2>
+				<p>We use the collected information for the following purposes:</p>
+				<ul>
+					<li>To provide and maintain the add-on's functionality</li>
+					<li>To improve and optimize the add-on's performance</li>
+					<li>To provide customer support and respond to inquiries</li>
+					<li>To ensure compliance with Google's policies and requirements</li>
+				</ul>
+				
+				<h2>Data Protection</h2>
+				<p>We implement appropriate security measures to protect your information:</p>
+				<ul>
+					<li>All data is transmitted using secure, encrypted connections</li>
+					<li>We follow industry best practices for data security</li>
+					<li>Access to your data is limited to authorized personnel only</li>
+					<li>We regularly review and update our security practices</li>
+				</ul>
+				
+				<h2>Data Sharing</h2>
+				<p>
+					We do not sell, trade, or otherwise transfer your personal information to third parties, except:
+				</p>
+				<ul>
+					<li>When required by law or to comply with legal obligations</li>
+					<li>To protect our rights, property, or safety</li>
+					<li>With your explicit consent</li>
+				</ul>
+				
+				<h2>Your Rights</h2>
+				<p>You have the right to:</p>
+				<ul>
+					<li>Access the personal information we hold about you</li>
+					<li>Request correction of inaccurate information</li>
+					<li>Request deletion of your personal information</li>
+					<li>Withdraw consent for data processing</li>
+					<li>Contact us with any privacy concerns</li>
+				</ul>
+				
+				<h2>Contact Information</h2>
+				<p>
+					If you have any questions about this Privacy Policy or our data practices, please contact us at:
+				</p>
+				<div class="contact-info">
+					<p><strong>Email:</strong> your.email@example.com</p>
+					<p><strong>Website:</strong> <a href="/">https://yourwebsite.com</a></p>
+				</div>
+				
+				<h2>Changes to This Policy</h2>
+				<p>
+					We may update this Privacy Policy from time to time. We will notify users of any material changes 
+					by posting the new Privacy Policy on this page and updating the "Last updated" date.
+				</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.breadcrumb {
+		margin-bottom: 2em;
+		font-size: 0.9em;
+		color: rgb(var(--gray));
+	}
+	
+	.breadcrumb a {
+		color: var(--accent);
+		text-decoration: none;
+	}
+	
+	.breadcrumb a:hover {
+		text-decoration: underline;
+	}
+	
+	.policy-content {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	
+	.policy-content h2 {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+		color: var(--accent);
+	}
+	
+	.policy-content ul {
+		margin-bottom: 1.5em;
+	}
+	
+	.policy-content li {
+		margin-bottom: 0.5em;
+	}
+	
+	.contact-info {
+		background: rgba(var(--gray-light), 0.3);
+		padding: 1.5em;
+		border-radius: 8px;
+		margin: 1em 0;
+	}
+	
+	.contact-info p {
+		margin: 0.5em 0;
+	}
+</style> 

@@ -1,0 +1,235 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+import { projects } from '../../data/projects';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Projects - ${SITE_TITLE}`} description="Explore our projects and Google Workspace Add-ons" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<nav class="breadcrumb">
+				<a href="/">Home</a> / 
+				<span>Projects</span>
+			</nav>
+
+			<h1>Projects</h1>
+			<p class="projects-intro">
+				Explore my current collection of projects.
+			</p>
+			
+			<div class="projects-grid">
+				{projects.map(project => (
+					<article class="project-card">
+						<div class="project-header">
+							<h2>{project.title}</h2>
+							<span class="status-badge status-{project.status.toLowerCase()}">{project.status}</span>
+						</div>
+						
+						<p class="project-description">{project.description}</p>
+						
+						<div class="project-tech">
+							{project.tech.map(tech => <span class="tech-tag">{tech}</span>)}
+						</div>
+						
+						<div class="project-actions">
+							<a href={`/projects/${project.name}`} class="btn btn-primary">View Project</a>
+							<div class="legal-links">
+								<a href={`/projects/${project.name}/privacy-policy`} class="legal-link">Privacy</a>
+								<a href={`/projects/${project.name}/terms`} class="legal-link">Terms</a>
+							</div>
+						</div>
+					</article>
+				))}
+			</div>
+			
+			<div class="coming-soon">
+				<h2>More Projects Coming Soon</h2>
+				<p>
+					I'm constantly working on new projects. Stay tuned for more productivity tools!
+				</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.breadcrumb {
+		margin-bottom: 2em;
+		font-size: 0.9em;
+		color: rgb(var(--gray));
+	}
+	
+	.breadcrumb a {
+		color: var(--accent);
+		text-decoration: none;
+	}
+	
+	.breadcrumb a:hover {
+		text-decoration: underline;
+	}
+	
+	.projects-intro {
+		font-size: 1.2em;
+		color: rgb(var(--gray));
+		margin-bottom: 3em;
+	}
+	
+	.projects-grid {
+		display: grid;
+		gap: 2em;
+		margin-bottom: 3em;
+	}
+	
+	.project-card {
+		padding: 2em;
+		background: white;
+		border-radius: 12px;
+		box-shadow: var(--box-shadow);
+		border: 1px solid rgba(var(--gray-light), 0.3);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+	
+	.project-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 32px rgba(var(--gray), 25%);
+	}
+	
+	.project-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: 1em;
+	}
+	
+	.project-header h2 {
+		margin: 0;
+		color: var(--accent);
+	}
+	
+	.status-badge {
+		padding: 0.5em 1em;
+		border-radius: 20px;
+		font-size: 0.8em;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	
+	.status-active {
+		background: #d4edda;
+		color: #155724;
+	}
+	
+	.status-beta {
+		background: #fff3cd;
+		color: #856404;
+	}
+	
+	.status-archived {
+		background: #f8d7da;
+		color: #721c24;
+	}
+	
+	.project-description {
+		color: rgb(var(--gray));
+		margin-bottom: 1.5em;
+		line-height: 1.6;
+	}
+	
+	.project-tech {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em;
+		margin-bottom: 1.5em;
+	}
+	
+	.tech-tag {
+		background: rgba(var(--accent), 0.1);
+		color: var(--accent);
+		padding: 0.4em 0.8em;
+		border-radius: 16px;
+		font-size: 0.8em;
+		font-weight: 500;
+	}
+	
+	.project-actions {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1em;
+	}
+	
+	.btn {
+		padding: 0.8em 1.5em;
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: 500;
+		transition: all 0.2s ease;
+	}
+	
+	.btn-primary {
+		background: var(--accent);
+		color: white;
+	}
+	
+	.btn-primary:hover {
+		background: var(--accent-dark);
+		transform: translateY(-2px);
+	}
+	
+	.legal-links {
+		display: flex;
+		gap: 1em;
+	}
+	
+	.legal-link {
+		color: rgb(var(--gray));
+		text-decoration: none;
+		font-size: 0.9em;
+	}
+	
+	.legal-link:hover {
+		color: var(--accent);
+	}
+	
+	.coming-soon {
+		text-align: center;
+		padding: 3em;
+		background: rgba(var(--gray-light), 0.3);
+		border-radius: 12px;
+	}
+	
+	.coming-soon h2 {
+		color: var(--accent);
+		margin-bottom: 1em;
+	}
+	
+	.coming-soon p {
+		color: rgb(var(--gray));
+		font-size: 1.1em;
+	}
+	
+	@media (max-width: 720px) {
+		.project-header {
+			flex-direction: column;
+			gap: 1em;
+		}
+		
+		.project-actions {
+			flex-direction: column;
+			align-items: stretch;
+		}
+		
+		.legal-links {
+			justify-content: center;
+		}
+	}
+</style> 
