@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
@@ -13,15 +14,20 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Welcome, ladies and germs!</h1>
+			<h1>🧑‍🚀</h1>
+			<h1>Welcome, ladies and germs!</h1>
 			<p>
-				Hello! I'm Aiman Farhan, a software engineer based in Malaysia, passionate about building robust and scalable applications.
+				I'm Aiman Farhan, a software engineer based in Malaysia, passionate about building robust and scalable applications.
+			</p>
+
+			<p>
+				Currently employed as a Software Engineer at <a href="https://shortcut.my">Shortcut Asia</a> for over 3 years, where I'm responsible for building and maintaining client applications.
 			</p>
 			
 			<h2>Skills & Expertise</h2>
 			
 			<div class="skills-section">
-				<div class="skill-category">
+				<div class="skill-category" data-aos="fade-up" data-aos-delay="100">
 					<h3>Ruby on Rails</h3>
 					<ul>
 						<li>Experienced in building robust, scalable web applications and APIs</li>
@@ -30,7 +36,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 					</ul>
 				</div>
 				
-				<div class="skill-category">
+				<div class="skill-category" data-aos="fade-up" data-aos-delay="100">
 					<h3>TypeScript</h3>
 					<ul>
 						<li>Strong advocate for type safety and maintainable codebases</li>
@@ -38,7 +44,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 					</ul>
 				</div>
 				
-				<div class="skill-category">
+				<div class="skill-category" data-aos="fade-up" data-aos-delay="100">
 					<h3>React Native</h3>
 					<ul>
 						<li>Proficient in developing cross-platform mobile applications</li>

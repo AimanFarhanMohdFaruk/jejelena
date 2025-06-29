@@ -2,6 +2,7 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+
 import { SITE_TITLE } from '../../consts';
 import { projects } from '../../data/projects';
 ---
@@ -29,7 +30,7 @@ import { projects } from '../../data/projects';
 					<article class="project-card">
 						<div class="project-header">
 							<h2>{project.title}</h2>
-							<span class="status-badge status-{project.status.toLowerCase()}">{project.status}</span>
+							<span class={`status-badge status-${project.status.toLowerCase()}`}>{project.status}</span>
 						</div>
 						
 						<p class="project-description">{project.description}</p>
@@ -178,6 +179,9 @@ import { projects } from '../../data/projects';
 	.btn-primary {
 		background: var(--accent);
 		color: white;
+		@media screen and (max-width: 720px) {
+			text-align: center;
+		}
 	}
 	
 	.btn-primary:hover {

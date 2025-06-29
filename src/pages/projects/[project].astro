@@ -33,7 +33,7 @@ const { project } = Astro.props;
 			<p class="project-description">{project.description}</p>
 			
 			<div class="project-status">
-				<span class="status-badge status-{project.status.toLowerCase()}">{project.status}</span>
+				<span class={`status-badge status-${project.status.toLowerCase()}`}>{project.status}</span>
 			</div>
 
 			<div class="project-content">

@@ -12,7 +12,11 @@
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.1",
+    "aos": "^2.3.4",
     "astro": "^5.10.1",
     "sharp": "^0.34.2"
+  },
+  "devDependencies": {
+    "@types/aos": "^3.0.7"
   }
 }
