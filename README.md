@@ -1,68 +1,138 @@
-# Astro Starter Kit: Blog
+# Aiman Farhan - Personal Blog & Portfolio
 
-```sh
-npm create astro@latest -- --template blog
+Welcome to my personal blog and portfolio! I'm a software engineer based in Malaysia, passionate about building robust and scalable applications.
+
+## 🚀 About Me
+
+I specialize in:
+
+- **Ruby on Rails** - Building robust, scalable web applications and APIs
+- **TypeScript** - Strong advocate for type safety and maintainable codebases
+- **React Native** - Developing cross-platform mobile applications
+
+I value clean code, collaboration, and continuous improvement. Always open to new opportunities and collaborations!
+
+## 📁 Projects
+
+This blog serves as a showcase for my projects, particularly Google Workspace Add-ons. Each project has its own dedicated space with:
+
+- **Project Overview** - Features, tech stack, and status
+- **Privacy Policy** - Project-specific privacy documentation
+- **Terms of Service** - Project-specific legal terms
+
+### Current Projects
+
+- **[Quran Insert](/projects/quran-insert/)** - A Google Workspace Add-on for inserting Quranic verses and references
+
+## 🏗️ Project Structure
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
+├── public/                 # Static assets
 ├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+│   ├── components/         # Reusable UI components
+│   ├── content/           # Blog posts and content
+│   ├── data/              # Project definitions and data
+│   ├── layouts/           # Page layouts
+│   ├── pages/             # Astro pages and routes
+│   └── styles/            # Global styles
+├── astro.config.mjs       # Astro configuration
+└── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🛠️ Tech Stack
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+This blog is built with:
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+- **[Astro](https://astro.build)** - Static site generator
+- **TypeScript** - Type safety
+- **Markdown** - Content authoring
+- **CSS** - Custom styling with CSS variables
 
-Any static assets, like images, can be placed in the `public/` directory.
+## 🚀 Getting Started
 
-## 🧞 Commands
+### Prerequisites
 
-All commands are run from the root of the project, from a terminal:
+- Node.js (v18 or higher)
+- npm or yarn
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Installation
 
-## 👀 Want to learn more?
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd jejelena
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+# Install dependencies
+npm install
 
-## Credit
+# Start development server
+npm run dev
+```
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+### Available Commands
+
+| Command           | Action                                       |
+| :---------------- | :------------------------------------------- |
+| `npm install`     | Installs dependencies                        |
+| `npm run dev`     | Starts local dev server at `localhost:4321`  |
+| `npm run build`   | Build your production site to `./dist/`      |
+| `npm run preview` | Preview your build locally, before deploying |
+
+## 📝 Adding New Projects
+
+To add a new project:
+
+1. **Update `src/data/projects.ts`**:
+
+```typescript
+{
+    name: 'your-project-name',        // URL slug (kebab-case)
+    title: 'Your Project Title',      // Display name
+    description: 'Project description...',
+    features: ['Feature 1', 'Feature 2'],
+    tech: ['Tech 1', 'Tech 2'],
+    status: 'Active' // or 'Beta' or 'Archived'
+}
+```
+
+2. **The system automatically creates**:
+   - `/projects/your-project-name/` - Project overview page
+   - `/projects/your-project-name/privacy-policy` - Privacy policy
+   - `/projects/your-project-name/terms` - Terms of service
+
+## 🎨 Features
+
+- **Responsive Design** - Works perfectly on all devices
+- **Dynamic Project Pages** - Each project gets its own space
+- **Legal Documentation** - Privacy policies and terms for each project
+- **Blog Integration** - Share your development journey
+- **SEO Optimized** - Proper meta tags and structured data
+- **Fast Performance** - 100/100 Lighthouse scores
+
+## 📄 Legal Pages
+
+Each project includes:
+
+- **Privacy Policy** - Data collection and usage information
+- **Terms of Service** - User rights and responsibilities
+- **Contact Information** - Easy way to reach out
+
+## 🤝 Contributing
+
+This is my personal blog, but I'm always open to feedback and suggestions! Feel free to:
+
+- Report bugs or issues
+- Suggest improvements
+- Share your thoughts on my projects
+
+## 📞 Contact
+
+- **Email**: aimanfaruk98@gmail.com
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Built with ❤️ using [Astro](https://astro.build)
