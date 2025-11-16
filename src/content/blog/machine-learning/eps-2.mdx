@@ -1,0 +1,64 @@
+---
+title: "Machine Learning Series: Episode 2"
+description: "Getting started"
+pubDate: "Nov 15 2025"
+---
+
+The tensor class. The building block of all machine learning operations.
+
+The tensor is the universal data structure in ML. Similar to how arrays, binary trees, and linked lists, are main data structures used in traditional software systems.
+
+## What is it
+
+It is a multi-dimensional array. It can take form of multiple dimensions as follows:
+
+1. Scalar. 5.0 (just a number)
+2. Vector. [1,2,3] (list of numbers)
+3. Matrix [[1,2], [1,3]] (grid of numbers)
+4. Cube [[[1,2],[1,3]], [[1,2], [1,3]]] (stack of matrices)
+
+## Why tensors?
+
+They are efficient, they are able to represent data used for mathematical operations often used in machine learning systems.
+
+For example, the raw pixel data of an image can be represented as a three-dimensional tensor, with the dimensions representing the height, width, and color channels of the image. In a neural network, the weights and biases of the layers can also be represented as tensors.
+
+## What are the attributes of a Tensor class?
+
+Tensor Class Structure:
+
+Core functions:
+
+1. data: np.array (the numbers)
+2. shape: tuple (dimensions)
+3. size: int (total elements)
+4. dtype: type (float32, int64)
+
+Operations:
+
+1. add, sub, mul (multiply)
+2. matmul(), reshape()
+3. sum(), mean(), max()
+4. repr(), str()
+
+## What operations are important
+
+**Matrix multiplication** is the operation that gives neural networks their power to transform and combine information across features.
+
+Below is an example operation that happens in a neural network
+
+```
+Linear Layer (the building block of neural networks):
+Input Features × Weight Matrix = Output Features
+    (N, D_in)   ×    (D_in, D_out)  =    (N, D_out)
+
+Real Example - Image Classification:
+Flattened Image × Hidden Weights = Hidden Features
+  (32, 784)     ×    (784, 256)   =   (32, 256)
+     ↑                   ↑              ↑
+  32 images         784→256 transform  32 feature vectors
+```
+
+It is a fundamental operation in neural networks, where it's used to transform input data through layers, allowing the model to learn complex patterns and relationships by performing linear transformations on vectors and matrices.
+
+**Shape manipulation: Reshape and Transpose**

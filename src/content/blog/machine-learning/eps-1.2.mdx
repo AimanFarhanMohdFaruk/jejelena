@@ -1,0 +1,290 @@
+---
+title: "Machine Learning Series: Episode 1.75"
+description: "Complete ML workflow: From data to deployment"
+pubDate: "Nov 15 2025"
+---
+
+How does the complete ML workflow look like?
+
+## The Complete Journey
+
+```
+1. Prepare Data (labeled examples)
+   ↓
+2. Define Model (layers) --> THIS IS WHAT TINYTORCH IS BUILDING
+   ↓
+3. Training Loop (forward → loss → backward → optimize)
+   ↓
+4. Save Model (frozen weights)
+   ↓
+5. Deploy (inference only)
+```
+
+## Step 1: Prepare Sample Data
+
+First, we need labeled data - inputs with correct answers.
+
+```python
+# Example: Simple classification problem
+# Predicting if a number is even or odd
+
+# Training data: (input, correct_label)
+training_data = [
+    (Tensor([2.0]), Tensor([1.0, 0.0])),  # 2 is even → [1, 0]
+    (Tensor([3.0]), Tensor([0.0, 1.0])),  # 3 is odd → [0, 1]
+    (Tensor([4.0]), Tensor([1.0, 0.0])),  # 4 is even → [1, 0]
+    (Tensor([5.0]), Tensor([0.0, 1.0])),  # 5 is odd → [0, 1]
+    # ... more examples
+]
+
+# What we're teaching:
+# - Input: A number
+# - Output: [probability_even, probability_odd]
+# - Label: The correct answer [1, 0] or [0, 1]
+```
+
+**Why this matters:** The model learns patterns from these examples. More examples = better learning.
+
+## Step 2: Define Model Architecture (Layers)
+
+We build the model using layers - the building blocks.
+
+```python
+# Simple neural network using TinyTorch
+class SimpleModel:
+    def __init__(self):
+        # Layer 1: Input (1 feature) → Hidden (4 neurons)
+        self.layer1 = Linear(in_features=1, out_features=4)
+        # Layer 2: Hidden (4 neurons) → Output (2 classes: even/odd)
+        self.layer2 = Linear(in_features=4, out_features=2)
+
+    def forward(self, x):
+        # Forward pass through layers
+        x = self.layer1(x)      # Transform input
+        x = relu(x)              # Activation function
+        x = self.layer2(x)       # Final prediction
+        return x
+
+model = SimpleModel()
+```
+
+**What's happening:**
+
+- **Layers** transform data: `input → hidden → output`
+- Each layer has learnable weights (initialized randomly)
+- The model structure defines how data flows
+
+## Step 3: Training Loop - All Concepts Together
+
+This is where autograd, backpropagation, and optimizers work together.
+
+```python
+# Initialize optimizer (manages weight updates)
+optimizer = SGD(model.parameters(), lr=0.01)
+
+# Loss function (measures "wrongness")
+def loss_function(prediction, target):
+    # Cross-entropy: penalizes wrong predictions
+    return cross_entropy_loss(prediction, target)
+
+# Training loop
+for epoch in range(100):  # Train for 100 iterations
+    total_loss = 0
+
+    for input_data, correct_label in training_data:
+        # ============================================
+        # FORWARD PASS
+        # ============================================
+        # Model makes prediction using current weights
+        prediction = model.forward(input_data)
+        # prediction = [0.6, 0.4] means: 60% even, 40% odd
+
+        # Compute loss: how wrong is the prediction?
+        loss = loss_function(prediction, correct_label)
+        # High loss = model is wrong
+        # Low loss = model is correct
+
+        # ============================================
+        # BACKPROPAGATION (Autograd)
+        # ============================================
+        # This is where the magic happens!
+        loss.backward()
+
+        # What autograd does:
+        # 1. Tracks computation graph (input → layer1 → layer2 → loss)
+        # 2. Computes gradients for each weight
+        # 3. Stores gradients in weight.grad
+
+        # After backward():
+        # - layer1.weight.grad = "how much does layer1.weight affect loss?"
+        # - layer2.weight.grad = "how much does layer2.weight affect loss?"
+
+        # ============================================
+        # OPTIMIZATION
+        # ============================================
+        # Update weights based on gradients
+        optimizer.step()
+        # What this does:
+        # - Uses gradients to update weights
+        # - Moves weights in direction that reduces loss
+        # - Formula: weight = weight - learning_rate * gradient
+
+        # Reset gradients for next iteration
+        optimizer.zero_grad()
+
+        total_loss += loss.item()
+
+    # Print progress
+    if epoch % 10 == 0:
+        print(f"Epoch {epoch}, Loss: {total_loss / len(training_data)}")
+```
+
+### How the Concepts Connect
+
+```
+1. FORWARD PASS
+   input → layers → prediction → loss
+   ↓
+   Model uses current weights to make prediction
+   Loss measures how wrong it is
+
+2. BACKPROPAGATION (Autograd)
+   loss.backward()
+   ↓
+   Computes gradients for all weights
+   Tracks dependencies through computation graph
+
+3. OPTIMIZATION
+   optimizer.step()
+   ↓
+   Updates weights using gradients
+   Moves toward lower loss
+
+4. REPEAT
+   Next iteration: model should be slightly better
+```
+
+## Step 4: Model Evaluation
+
+After training, check if the model learned:
+
+```python
+# Test the trained model
+test_cases = [
+    (Tensor([6.0]), [1.0, 0.0]),  # Should predict even
+    (Tensor([7.0]), [0.0, 1.0]),  # Should predict odd
+]
+
+model.eval()  # Set to evaluation mode (no training)
+
+for input_data, expected in test_cases:
+    with no_grad():  # No gradients needed for inference
+        prediction = model.forward(input_data)
+        print(f"Input: {input_data.data}, Prediction: {prediction.data}, Expected: {expected}")
+```
+
+## Step 5: Save the Trained Model
+
+Once training is complete, save the learned weights:
+
+```python
+# Save model weights (the learned parameters)
+model_state = {
+    'layer1_weight': model.layer1.weight.data,
+    'layer1_bias': model.layer1.bias.data,
+    'layer2_weight': model.layer2.weight.data,
+    'layer2_bias': model.layer2.bias.data,
+}
+
+save_model(model_state, 'model_v1.pth')
+print("Model saved! Weights are frozen.")
+```
+
+**What we're saving:** The learned weights that make the model accurate. These are static - they won't change.
+
+## Step 6: Deploy Model (Inference Only)
+
+In production, we load the saved model and use it for predictions:
+
+```python
+# Load saved model
+model = SimpleModel()
+model.load_state_dict(load_model('model_v1.pth'))
+model.eval()  # Evaluation mode: no training
+
+# Production inference
+def predict(input_number):
+    """
+    Make prediction on new data.
+    Model is frozen - no learning happens here.
+    """
+    input_tensor = Tensor([input_number])
+
+    with no_grad():  # No gradients needed (no training)
+        prediction = model.forward(input_tensor)
+
+        # Convert to readable output
+        if prediction.data[0] > prediction.data[1]:
+            return "even"
+        else:
+            return "odd"
+
+# Use the deployed model
+print(predict(8))   # "even"
+print(predict(9))   # "odd"
+print(predict(10))  # "even"
+```
+
+**Key points:**
+
+- Model weights are **frozen** (static)
+- Only **forward pass** (no backward, no gradients)
+- Fast inference, no training overhead
+- Same input → same output (deterministic)
+
+## The Complete Picture
+
+### Training Phase (Dynamic)
+
+```
+Data → Model → Prediction → Loss
+                ↓
+            Backward (Autograd)
+                ↓
+            Gradients
+                ↓
+            Optimizer Updates Weights
+                ↓
+            Repeat (model improves)
+```
+
+### Deployment Phase (Static)
+
+```
+New Input → Model (frozen weights) → Prediction
+           (no learning, no gradients)
+```
+
+## Real-World Analogy
+
+**Training:**
+
+- Like a student learning: makes mistakes, gets feedback (loss), adjusts (optimizer), improves over time
+
+**Deployment:**
+
+- Like a graduated student taking an exam: uses learned knowledge (frozen weights), no learning during the exam, just applying what was learned
+
+## Summary: How Everything Connects
+
+1. **Data** provides examples with correct answers
+2. **Layers** define the model structure
+3. **Forward pass** makes predictions using current weights
+4. **Loss** measures how wrong predictions are
+5. **Backpropagation (Autograd)** computes gradients automatically
+6. **Optimizer** updates weights to reduce loss
+7. **Training loop** repeats until model is accurate
+8. **Save model** freezes the learned weights
+9. **Deploy** uses frozen model for inference only
+
+The framework (TinyTorch/PyTorch) handles steps 5-6 automatically, so you focus on steps 1-3 (data, architecture, training loop). That's the power of ML frameworks - they abstract the complex math so you can build systems.

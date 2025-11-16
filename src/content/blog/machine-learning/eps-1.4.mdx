@@ -1,0 +1,282 @@
+---
+title: "Machine Learning Series: Episode 1.8"
+description: "The ML engineer's role"
+pubDate: "Nov 15 2025"
+---
+
+If frameworks handle the math, what does the ML engineer do? Here’s the breakdown:
+
+## The ML Engineer's Role
+
+Frameworks handle the math; ML engineers focus on design, data, and systems.
+
+## 1. **Model Architecture Design**
+
+Decide what the model looks like:
+
+```python
+# ML Engineer decides:
+class MyModel:
+    def __init__(self):
+        # How many layers?
+        self.layer1 = Linear(784, 256)  # Why 256? Not 128? Not 512?
+        self.layer2 = Linear(256, 128)  # Why add this layer?
+        self.layer3 = Linear(128, 10)   # Why this structure?
+
+    def forward(self, x):
+        x = relu(self.layer1(x))  # Why ReLU? Not tanh? Not sigmoid?
+        x = dropout(x, p=0.2)    # Why dropout? Why 0.2?
+        x = relu(self.layer2(x))
+        return self.layer3(x)
+```
+
+**Decisions:**
+
+- How many layers?
+- How many neurons per layer?
+- Which activation functions?
+- Where to add dropout, batch norm, etc.?
+- These choices affect performance.
+
+## 2. **Data Engineering**
+
+Prepare and manage data:
+
+```python
+# ML Engineer's job:
+# - Collect data
+# - Clean data (handle missing values, outliers)
+# - Label data (supervised learning)
+# - Split data (train/validation/test)
+# - Preprocess data (normalize, augment)
+# - Create data loaders
+
+def prepare_data():
+    # Clean and preprocess
+    data = load_raw_data()
+    data = remove_outliers(data)
+    data = normalize(data)
+
+    # Split appropriately
+    train_data, val_data, test_data = split_data(data)
+
+    # Create loaders
+    train_loader = DataLoader(train_data, batch_size=32)
+    return train_loader, val_loader, test_loader
+```
+
+**Why it matters:** Garbage in, garbage out. Bad data → bad model.
+
+## 3. **Loss Function Selection**
+
+Choose what to optimize:
+
+```python
+# ML Engineer decides:
+# - Classification? → Cross-entropy loss
+# - Regression? → MSE loss
+# - Imbalanced classes? → Weighted loss
+# - Multiple objectives? → Custom loss
+
+loss_fn = CrossEntropyLoss()  # Why this? Not MSE?
+# or
+loss_fn = WeightedCrossEntropyLoss(weights=[0.3, 0.7])  # Custom for imbalanced data
+```
+
+**Impact:** The loss function defines what “good” means.
+
+## 4. **Hyperparameter Tuning**
+
+Tune settings that affect training:
+
+```python
+# ML Engineer experiments with:
+learning_rate = 0.001  # Try 0.01, 0.0001, etc.
+batch_size = 32        # Try 16, 64, 128
+num_epochs = 100       # When to stop?
+optimizer = Adam()     # Or SGD? Or RMSprop?
+weight_decay = 0.0001 # Regularization strength
+```
+
+**Process:** Experiment, measure, iterate.
+
+## 5. **Training Loop Orchestration**
+
+Structure the training process:
+
+```python
+# ML Engineer designs the training loop:
+def train_model():
+    for epoch in range(num_epochs):
+        # Training phase
+        model.train()
+        for batch in train_loader:
+            loss = train_step(batch)
+
+        # Validation phase
+        model.eval()
+        val_loss = validate()
+
+        # Early stopping?
+        if val_loss < best_loss:
+            save_checkpoint()
+
+        # Learning rate scheduling?
+        scheduler.step()
+
+        # Logging and monitoring
+        log_metrics(epoch, loss, val_loss)
+```
+
+**Responsibilities:**
+
+- When to validate
+- When to save checkpoints
+- When to stop training
+- How to monitor progress
+
+## 6. **Evaluation and Debugging**
+
+Assess and fix issues:
+
+```python
+# ML Engineer analyzes:
+# - Is the model overfitting? (train loss ↓, val loss ↑)
+# - Is it underfitting? (both losses high)
+# - What mistakes is it making?
+# - Where does it fail?
+
+# Debugging techniques:
+# - Visualize predictions
+# - Analyze confusion matrix
+# - Check gradient flow
+# - Monitor weight distributions
+```
+
+**Skills:** Diagnose why a model isn’t working and fix it.
+
+## 7. **Feature Engineering**
+
+Decide what inputs to use:
+
+```python
+# ML Engineer creates features:
+def extract_features(raw_data):
+    features = []
+    features.append(raw_data['age'])
+    features.append(raw_data['income'] / raw_data['age'])  # Custom feature
+    features.append(one_hot_encode(raw_data['category']))  # Encode categorical
+    return features
+
+# Or in deep learning:
+# - How to preprocess images?
+# - What data augmentation to use?
+# - How to handle text? (tokenization, embeddings)
+```
+
+**Impact:** Better features often beat a better algorithm.
+
+## 8. **Production Deployment**
+
+Deploy models to production:
+
+```python
+# ML Engineer handles:
+# - Model serialization
+# - API design
+# - Performance optimization
+# - Monitoring and logging
+# - A/B testing
+# - Model versioning
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    input_data = request.json
+    prediction = model.inference(input_data)
+    return jsonify(prediction)
+```
+
+**Considerations:**
+
+- Latency
+- Throughput
+- Resource usage
+- Reliability
+
+## 9. **Problem Formulation**
+
+Frame business problems as ML problems:
+
+```
+Business: "We want to reduce customer churn"
+↓
+ML Engineer translates:
+- What's the input? (customer data)
+- What's the output? (churn probability)
+- What's the objective? (classification or regression?)
+- How do we measure success? (accuracy? precision? revenue impact?)
+```
+
+**Skill:** Translating real-world problems into ML tasks.
+
+## 10. **Domain Expertise**
+
+Apply domain knowledge:
+
+- Healthcare: Understand medical data, regulations
+- Finance: Understand risk, regulations
+- E-commerce: Understand user behavior, business metrics
+
+**Value:** Domain knowledge guides better decisions.
+
+## The Analogy
+
+**Framework (PyTorch/TinyTorch):**
+
+- Like a programming language
+- Provides tools and abstractions
+- Handles low-level details
+
+**ML Engineer:**
+
+- Like a software engineer
+- Uses tools to solve problems
+- Makes architectural decisions
+- Writes the application logic
+
+## What ML Engineers Don't Do (Usually)
+
+- Manually compute gradients (framework handles it)
+- Implement backpropagation from scratch (framework handles it)
+- Write optimization algorithms (framework provides optimizers)
+- Low-level tensor operations (framework provides them)
+
+## What They Do Instead
+
+- Design model architectures
+- Prepare and manage data
+- Tune hyperparameters
+- Debug training issues
+- Deploy to production
+- Monitor and maintain systems
+- Translate business problems to ML
+
+## The Value Proposition
+
+**Frameworks:** Handle the math automatically  
+**ML Engineers:** Make decisions that affect model performance
+
+The engineer’s decisions (architecture, data, hyperparameters) determine success, not just the framework.
+
+## Summary
+
+ML engineers are:
+
+- Architects: Design model structures
+- Data scientists: Prepare and understand data
+- Experimenters: Tune hyperparameters
+- Debuggers: Diagnose and fix issues
+- Engineers: Deploy and maintain systems
+- Problem solvers: Translate business needs to ML solutions
+
+The framework is a tool; the engineer uses it to build solutions. Like a carpenter uses a hammer, the skill is in knowing how to use it effectively.

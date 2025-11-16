@@ -1,0 +1,129 @@
+---
+title: "Machine Learning Series: Episode 1"
+description: "A walkthrough of the first episode of the machine learning series"
+pubDate: "Nov 15 2025"
+---
+
+## My pedagogy
+
+To attempt to work on problems as much as possible, for example, to reduce theory and focus more on practice.
+
+To do this, we are going to work on practical resources only. From experience, this tends to work more effectively.
+
+I did not have formal education in software engineering but the most I've learnt was from building projects for my clients.
+
+From there, I started to understand what to ask, how to optimise, why to optimise and how all the systems work together.
+
+## The chosen resources
+
+We will be referencing the following repository: https://github.com/mlsysbook/TinyTorch
+
+This repository is a implementation of the TinyTorch module from the MLSys book. It is a guide on how to build a TinyTorch from scratch.
+
+Hence, you are forced to build the entire system from scratch. No shortcuts, minimal abstractions.
+
+We will be using the following resources:
+
+- [TinyTorch](https://github.com/mlsysbook/TinyTorch)
+- [MLSys Book](https://github.com/mlsysbook/mlsysbook)
+- [TinyTorch Documentation](https://tinytorch.readthedocs.io/en/latest/)
+- [TinyTorch Examples](https://github.com/mlsysbook/TinyTorch/tree/main/examples)
+- [TinyTorch Tutorials](https://github.com/mlsysbook/TinyTorch/tree/main/tutorials)
+- [TinyTorch Examples](https://github.com/mlsysbook/TinyTorch/tree/main/examples)
+
+## Explainer on what is being built
+
+TinyTorch is an educational deep learning framework built from scratch, designed to teach how frameworks like PyTorch work internally.
+
+## What it is
+
+A minimal implementation of a PyTorch-like framework built from scratch with minimal abstractions.
+
+Focuses on core concepts: tensors, autograd, neural network layers, and optimization
+
+## For Software Engineers: The ML Framework Flow
+
+If you're coming from software engineering, here's how the ML development flow works and where frameworks fit in:
+
+### The Traditional Software Engineering Flow
+
+In traditional software development, you:
+
+1. Write code with explicit logic
+2. Compile/run it
+3. Debug and iterate
+4. Deploy the application
+
+The code does exactly what you tell it to do, step by step.
+
+### The Machine Learning Flow
+
+In ML, the workflow is fundamentally different:
+
+1. **Define Model Architecture** - Design the structure (like defining a class)
+2. **Train the Model** - The framework learns patterns from data (weights get updated automatically)
+3. **Save the Trained Model** - Export the learned weights (like saving state)
+4. **Deploy for Inference** - Use the frozen model to make predictions (static, no learning)
+
+### What Role Does PyTorch Play?
+
+Think of PyTorch (and frameworks like it) as the **runtime and tooling** for ML, similar to how you have:
+
+- **Node.js** for JavaScript backend development
+- **Spring** for Java applications
+- **Django/Flask** for Python web apps
+
+PyTorch provides:
+
+1. **Tensor Operations** - Multi-dimensional arrays with GPU acceleration
+2. **Automatic Differentiation** - Computes gradients automatically (the `backward()` magic)
+3. **Neural Network Layers** - Pre-built components (Linear, ReLU, Conv2D, etc.)
+4. **Optimizers** - Algorithms that update weights (SGD, Adam, etc.)
+5. **Training Infrastructure** - Data loaders, loss functions, training loops
+
+### The Learning Path: TinyTorch → PyTorch
+
+**TinyTorch (What we're building):**
+
+- Educational framework to understand the internals
+- You implement autograd, layers, optimizers yourself
+- Learn how the magic actually works
+- Minimal, no shortcuts
+
+**PyTorch (Production framework):**
+
+- What you use for real model development
+- Highly optimized, GPU-accelerated, production-ready
+- Same concepts, but battle-tested and performant
+- Used by companies to build actual ML systems
+
+### Why Build TinyTorch First?
+
+As a software engineer, you're probably used to understanding how things work under the hood. TinyTorch gives you that same understanding for ML frameworks:
+
+- **No black boxes** - You implement every component
+- **Understand the fundamentals** - When you use PyTorch later, you'll know what's happening
+- **Debugging skills** - When something goes wrong, you'll understand why
+- **Better intuition** - You'll make better architectural decisions
+
+### The Practical Workflow
+
+```
+1. Learn with TinyTorch
+   ↓
+   Build tensors, autograd, layers from scratch
+   ↓
+2. Understand the concepts
+   ↓
+   Know how backpropagation, optimizers, training loops work
+   ↓
+3. Use PyTorch for real projects
+   ↓
+   Apply the same concepts with production framework
+   ↓
+4. Build and deploy ML systems
+   ↓
+   Train models, save weights, deploy for inference
+```
+
+The framework is your toolkit - TinyTorch teaches you how to build the tools, PyTorch gives you the professional-grade tools to build real systems.

@@ -1,0 +1,150 @@
+---
+title: "Machine Learning Series: Episode 1.5"
+description: "Essential ML terms for software engineers"
+pubDate: "Nov 15 2025"
+---
+
+Before diving into building TinyTorch, let's understand the key ML concepts you'll encounter. These are the building blocks that frameworks handle for you.
+
+## Autograd (Automatic Differentiation)
+
+**What it is:** Automatic computation of gradients (derivatives) for your operations.
+
+**A note on the term "gradients"**
+Gradients measure how much a small change in one value affects another. In neural networks, they tell us how much changing a weight changes the loss.
+
+**What role it plays:** When you perform operations on tensors (add, multiply, matmul), autograd tracks the computation graph. Later, when you call `loss.backward()`, it automatically computes how each weight contributed to the final loss.
+
+**Why the framework handles it:**
+
+- Manual gradient calculation is tedious and error-prone
+- The chain rule requires tracking every operation
+- Frameworks compute gradients automatically, so you focus on model design
+
+**Simple analogy:** Like a debugger that tracks every variable change, but for mathematical derivatives.
+
+**In code:**
+
+```python
+x = Tensor([1, 2, 3], requires_grad=True)
+y = x * 2  # Autograd tracks this operation
+loss = y.sum()
+loss.backward()  # Autograd computes gradients automatically
+# Now x.grad contains how x affects the loss
+```
+
+## Layers
+
+**What it is:** Pre-built building blocks for neural networks (Linear, ReLU, Conv2D, etc.).
+
+**What role it plays:** Layers are the components that transform data. A Linear layer applies a matrix multiplication and bias, ReLU applies an activation function, etc.
+
+**Why the framework handles it:**
+
+- Layers encapsulate common operations (weight matrices, activations)
+- They integrate with autograd automatically
+- You compose layers to build complex networks
+
+**Simple analogy:** Like UI components (Button, Input) that you compose into interfaces, but for data transformations.
+
+**In code:**
+
+```python
+# Instead of manually doing: output = input @ weights + bias
+layer = Linear(in_features=784, out_features=256)
+output = layer(input)  # Framework handles weights, bias, autograd
+```
+
+## Backpropagation
+
+**What it is:** The algorithm that computes gradients by working backwards through the computation graph.
+
+**What role it plays:** After computing the loss (forward pass), backpropagation calculates how much each weight should change to reduce the loss. It propagates gradients from the output back to the inputs.
+
+**Why the framework handles it:**
+
+- Implementing backprop manually requires careful chain rule application
+- It's the same pattern every time: forward → loss → backward → update
+- Frameworks automate this entire flow
+
+**Simple analogy:** Like a reverse debugger - you know the error (loss), and it traces back to find what caused it.
+
+**The flow:**
+
+```
+Forward:  input → layer1 → layer2 → output → loss
+Backward: loss → layer2.grad → layer1.grad → input.grad
+```
+
+**In code:**
+
+```python
+# Forward pass
+output = model(input)
+loss = loss_function(output, target)
+
+# Backpropagation (framework handles this)
+loss.backward()  # Computes gradients for all weights
+```
+
+## Optimizers
+
+**What it is:** Algorithms that update model weights based on computed gradients (SGD, Adam, etc.).
+
+**What role it plays:** After backpropagation computes gradients, optimizers decide how to update weights. Different optimizers use different strategies (simple step, momentum, adaptive learning rates).
+
+**Why the framework handles it:**
+
+- Weight update logic is standardized but complex
+- Optimizers manage learning rates, momentum, and other hyperparameters
+- You just call `optimizer.step()` instead of manually updating weights
+
+**Simple analogy:** Like a package manager that updates dependencies, but for neural network weights.
+
+**In code:**
+
+```python
+optimizer = SGD(model.parameters(), lr=0.01)
+
+# Training loop
+for batch in data:
+    loss = compute_loss(model(batch))
+    loss.backward()  # Compute gradients
+    optimizer.step()  # Update weights using gradients
+    optimizer.zero_grad()  # Reset gradients for next iteration
+```
+
+## How They Work Together
+
+Here's the complete flow in a training loop:
+
+```
+1. Forward Pass
+   input → layers → output → loss
+
+2. Backpropagation (autograd)
+   loss.backward() → computes gradients for all weights
+
+3. Optimization
+   optimizer.step() → updates weights based on gradients
+
+4. Repeat
+```
+
+**The framework's job:** Handle steps 2 and 3 automatically, so you focus on step 1 (designing your model architecture).
+
+## Why This Matters
+
+As a software engineer, you're used to:
+
+- Writing explicit logic
+- Debugging step-by-step
+- Understanding every line of code
+
+In ML, frameworks abstract away the mathematical complexity (gradients, chain rule, optimization) so you can:
+
+- Focus on model architecture
+- Experiment with different designs
+- Build systems without deep math knowledge
+
+But by building TinyTorch, you'll understand what these abstractions are doing under the hood - making you a better ML engineer.
