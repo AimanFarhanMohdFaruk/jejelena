@@ -62,3 +62,68 @@ Flattened Image × Hidden Weights = Hidden Features
 It is a fundamental operation in neural networks, where it's used to transform input data through layers, allowing the model to learn complex patterns and relationships by performing linear transformations on vectors and matrices.
 
 **Shape manipulation: Reshape and Transpose**
+
+Neural networks constantly change tensor shapes to match layer requirements. Understanding these operations is crucial for data flow through networks.
+
+Because moving from one layer to another means dealing with different
+matrices shapes which requires us to reshape and transpose.
+
+You can also reshape tensors, you change the dimensions without changing the data. why you require doing so is mostly to support the operations required for you to run a particular process.
+
+**Reduction Operations: Aggregating Information**
+
+Reduction operations collapse dimensions by aggregating data, which is essential for computing statistics, losses, and preparing data for different layers.
+
+Example reduction operations
+
+1. Loss computation -> losses.mean()
+2. Batch normalisation -> batch.mean(axis=0)
+3. Global pooling
+
+### Neural Network Layer Simulation
+
+The fundamental building block of neural networks is the linear transformation: **y = xW + b**
+
+```
+Linear Layer Forward Pass: y = xW + b
+
+Input Features → Weight Matrix → Matrix Multiply → Add Bias → Output Features
+  (batch, in)   (in, out)        (batch, out)     (batch, out)   (batch, out)
+
+Step-by-Step Breakdown:
+1. Input:   X shape (batch_size, input_features)
+2. Weight:  W shape (input_features, output_features)
+3. Matmul:  XW shape (batch_size, output_features)
+4. Bias:    b shape (output_features,)
+5. Result:  XW + b shape (batch_size, output_features)
+
+Example Flow:
+Input: [[1, 2, 3],    Weight: [[0.1, 0.2],    Bias: [0.1, 0.2]
+        [4, 5, 6]]            [0.3, 0.4],
+       (2, 3)                 [0.5, 0.6]]
+                             (3, 2)
+
+Step 1: Matrix Multiply
+[[1, 2, 3]] @ [[0.1, 0.2]] = [[1×0.1+2×0.3+3×0.5, 1×0.2+2×0.4+3×0.6]]
+[[4, 5, 6]]   [[0.3, 0.4]]   [[4×0.1+5×0.3+6×0.5, 4×0.2+5×0.4+6×0.6]]
+              [[0.5, 0.6]]
+                           = [[1.6, 2.6],
+                              [4.9, 6.8]]
+
+Step 2: Add Bias (Broadcasting)
+[[1.6, 2.6]] + [0.1, 0.2] = [[1.7, 2.8],
+ [4.9, 6.8]]                 [5.0, 7.0]]
+
+This is the foundation of every neural network layer!
+```
+
+### Why This Integration Matters
+
+This simulation shows how our basic operations combine to create the computational building blocks of neural networks:
+
+- **Matrix Multiplication**: Transforms input features into new feature space
+- **Broadcasting Addition**: Applies learned biases efficiently across batches
+- **Shape Handling**: Ensures data flows correctly through layers
+- **Memory Management**: Creates new tensors without corrupting inputs
+
+Every layer in a neural network - from simple MLPs to complex transformers - uses this same pattern.

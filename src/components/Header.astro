@@ -1,48 +1,95 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_NAME } from '../consts';
+
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '';
 ---
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/projects">Projects</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
+		<a class="brand" href="/">{SITE_NAME}</a>
+		<div class="links">
+			{isHome ? (
+				<>
+					<a href="#work">Work</a>
+					<a href="#contact">Contact</a>
+				</>
+			) : (
+				<>
+					<HeaderLink href="/">Home</HeaderLink>
+					<HeaderLink href="/#work">Work</HeaderLink>
+				</>
+			)}
+			<HeaderLink href="/blog">Notes</HeaderLink>
 		</div>
-
 	</nav>
 </header>
+
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
+		position: sticky;
+		top: 0;
+		z-index: 40;
+		padding: 0 1.25rem;
+		backdrop-filter: blur(14px);
+		background: rgba(5, 5, 5, 0.55);
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.4s var(--ease-out);
 	}
 
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
+		width: 860px;
+		max-width: 100%;
+		margin: 0 auto;
+		min-height: 3.75rem;
 	}
 
+	.brand {
+		font-family: var(--font-display);
+		font-weight: 600;
+		font-size: 0.95rem;
+		letter-spacing: -0.02em;
+		color: var(--text);
+		text-decoration: none;
+		opacity: 0.85;
+	}
+
+	.brand:hover {
+		opacity: 1;
+		color: #fff;
+	}
+
+	.links {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.links :global(a) {
+		padding: 0.5rem 0.7rem;
+		font-size: 0.875rem;
+		color: var(--text-muted);
+		text-decoration: none;
+		border-bottom: none;
+	}
+
+	.links :global(a:hover),
+	.links :global(a.active) {
+		color: var(--text);
+	}
+
+	@media (max-width: 720px) {
+		nav {
+			min-height: 3.25rem;
+		}
+
+		.links :global(a) {
+			padding: 0.45rem 0.5rem;
+			font-size: 0.8rem;
+		}
+	}
 </style>

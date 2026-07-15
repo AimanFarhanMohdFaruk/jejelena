@@ -1,194 +1,312 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
+import PortfolioLayout from '../../components/PortfolioLayout.astro';
 import { SITE_TITLE } from '../../consts';
 import { projects } from '../../data/projects';
 
 export async function getStaticPaths() {
-	return projects.map(project => ({
+	return projects.map((project) => ({
 		params: { project: project.name },
-		props: { project }
+		props: { project },
 	}));
 }
 
 const { project } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={`${project.title} - ${SITE_TITLE}`} description={project.description} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<nav class="breadcrumb">
-				<a href="/">Home</a> / 
-				<a href="/projects">Projects</a> / 
-				<span>{project.title}</span>
-			</nav>
+<PortfolioLayout title={`${project.title} — ${SITE_TITLE}`} description={project.summary}>
+	<main>
+		<nav class="breadcrumb">
+			<a href="/">Home</a>
+			<span>/</span>
+			<a href="/#work">Work</a>
+			<span>/</span>
+			<span>{project.title}</span>
+		</nav>
 
+		<header class="hero" data-aos="fade-up">
+			<div class="meta">
+				{project.period && <span>{project.period}</span>}
+				<span class="status">{project.status}</span>
+			</div>
 			<h1>{project.title}</h1>
-			<p class="project-description">{project.description}</p>
-			
-			<div class="project-status">
-				<span class={`status-badge status-${project.status.toLowerCase()}`}>{project.status}</span>
-			</div>
+			<p class="tagline">{project.tagline}</p>
+			<p class="summary">{project.summary}</p>
+			<ul class="tech">
+				{project.tech.map((t) => <li>{t}</li>)}
+			</ul>
+		</header>
 
-			<div class="project-content">
-				<section class="project-section">
-					<h2>Features</h2>
-					<ul class="feature-list">
-						{project.features.map(feature => <li>{feature}</li>)}
-					</ul>
-				</section>
+		{project.snapshot && project.snapshot.length > 0 && (
+			<section class="block" data-aos="fade-up">
+				<h2>Snapshot</h2>
+				<dl class="snapshot">
+					{project.snapshot.map((field) => (
+						<div class="snapshot-row">
+							<dt>{field.label}</dt>
+							<dd>{field.value}</dd>
+						</div>
+					))}
+				</dl>
+			</section>
+		)}
 
-				<section class="project-section">
-					<h2>Technology Stack</h2>
-					<div class="tech-stack">
-						{project.tech.map(tech => <span class="tech-tag">{tech}</span>)}
-					</div>
-				</section>
+		{project.deliveryArc && project.deliveryArc.length > 0 && (
+			<section class="block" data-aos="fade-up">
+				<h2>Delivery arc</h2>
+				<ol class="arc">
+					{project.deliveryArc.map((phase) => (
+						<li>
+							<span class="period">{phase.period}</span>
+							<h3>{phase.title}</h3>
+							<p>{phase.description}</p>
+						</li>
+					))}
+				</ol>
+			</section>
+		)}
 
-				<section class="project-section">
-					<h2>Legal Information</h2>
-					<div class="legal-links">
-						<a href={`/projects/${project.name}/privacy-policy`} class="legal-link">
-							📄 Privacy Policy
-						</a>
-						<a href={`/projects/${project.name}/terms`} class="legal-link">
-							📋 Terms of Service
-						</a>
-					</div>
-				</section>
-			</div>
-		</main>
-		<Footer />
-	</body>
-</html>
+		{project.highlights && project.highlights.length > 0 && (
+			<section class="block" data-aos="fade-up">
+				<h2>Delivery highlights</h2>
+				<div class="highlights">
+					{project.highlights.map((item) => (
+						<div class="highlight">
+							<h3>{item.title}</h3>
+							<p>{item.description}</p>
+						</div>
+					))}
+				</div>
+			</section>
+		)}
+
+		{project.features && project.features.length > 0 && (
+			<section class="block" data-aos="fade-up">
+				<h2>Features</h2>
+				<ul class="features">
+					{project.features.map((feature) => <li>{feature}</li>)}
+				</ul>
+			</section>
+		)}
+
+		<p class="back">
+			<a href="/#work">← Back to work</a>
+		</p>
+	</main>
+</PortfolioLayout>
 
 <style>
-	.breadcrumb {
-		margin-bottom: 2em;
-		font-size: 0.9em;
-		color: rgb(var(--gray));
+	main {
+		padding-top: 2.5rem;
 	}
-	
+
+	.breadcrumb {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-bottom: 2.5rem;
+		font-size: 0.85rem;
+		color: var(--text-faint);
+	}
+
 	.breadcrumb a {
-		color: var(--accent);
+		color: var(--text-muted);
 		text-decoration: none;
 	}
-	
+
 	.breadcrumb a:hover {
-		text-decoration: underline;
+		color: var(--text);
 	}
-	
-	.project-description {
-		font-size: 1.2em;
-		color: rgb(var(--gray));
-		margin-bottom: 1.5em;
+
+	.hero {
+		margin-bottom: 3.5rem;
+		padding-bottom: 2.5rem;
+		border-bottom: 1px solid var(--line);
 	}
-	
-	.project-status {
-		margin-bottom: 2em;
-	}
-	
-	.status-badge {
-		padding: 0.5em 1em;
-		border-radius: 20px;
-		font-size: 0.9em;
-		font-weight: bold;
+
+	.meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem 1.25rem;
+		margin-bottom: 1rem;
+		font-size: 0.8rem;
+		letter-spacing: 0.06em;
 		text-transform: uppercase;
+		color: var(--text-faint);
 	}
-	
-	.status-active {
-		background: #d4edda;
-		color: #155724;
+
+	.status {
+		color: var(--text-muted);
 	}
-	
-	.status-beta {
-		background: #fff3cd;
-		color: #856404;
+
+	h1 {
+		margin: 0 0 0.6rem;
+		font-size: clamp(2.25rem, 6vw, 3.75rem);
 	}
-	
-	.status-archived {
-		background: #f8d7da;
-		color: #721c24;
+
+	.tagline {
+		margin: 0 0 1.25rem;
+		font-size: 1.15rem;
+		color: var(--text-muted);
 	}
-	
-	.project-content {
-		display: grid;
-		gap: 2em;
+
+	.summary {
+		max-width: 42rem;
+		margin: 0 0 1.75rem;
+		color: var(--text-muted);
+		line-height: 1.7;
 	}
-	
-	.project-section h2 {
-		color: var(--accent);
-		margin-bottom: 1em;
-	}
-	
-	.feature-list {
+
+	.tech {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
 		list-style: none;
+		margin: 0;
 		padding: 0;
 	}
-	
-	.feature-list li {
-		padding: 0.5em 0;
-		border-bottom: 1px solid rgba(var(--gray-light), 0.5);
+
+	.tech li {
+		margin: 0;
+		padding: 0.25rem 0.65rem;
+		font-size: 0.75rem;
+		color: var(--text-muted);
+		border: 1px solid var(--line);
+		border-radius: 999px;
 	}
-	
-	.feature-list li:before {
-		content: "✓";
-		color: var(--accent);
-		font-weight: bold;
-		margin-right: 0.5em;
+
+	.block {
+		margin-bottom: 3.5rem;
 	}
-	
-	.tech-stack {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5em;
-	}
-	
-	.tech-tag {
-		background: rgba(var(--accent), 0.1);
-		color: var(--accent);
-		padding: 0.5em 1em;
-		border-radius: 20px;
-		font-size: 0.9em;
+
+	.block h2 {
+		margin: 0 0 1.5rem;
+		font-size: 0.8rem;
 		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--text-faint);
 	}
-	
-	.legal-links {
-		display: flex;
-		gap: 1em;
-		flex-wrap: wrap;
+
+	.snapshot {
+		margin: 0;
+		display: grid;
+		gap: 1.35rem;
 	}
-	
-	.legal-link {
-		display: inline-flex;
-		align-items: center;
-		padding: 1em 1.5em;
-		background: rgba(var(--gray-light), 0.3);
-		color: rgb(var(--gray-dark));
+
+	.snapshot-row {
+		display: grid;
+		grid-template-columns: 7.5rem 1fr;
+		gap: 1rem;
+		padding-bottom: 1.35rem;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.snapshot-row:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+
+	.snapshot dt {
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--text-faint);
+	}
+
+	.snapshot dd {
+		margin: 0;
+		color: var(--text-muted);
+		line-height: 1.6;
+	}
+
+	.arc {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 1.75rem;
+	}
+
+	.arc li {
+		margin: 0;
+		padding-left: 1.15rem;
+		border-left: 1px solid var(--line);
+	}
+
+	.arc .period {
+		display: block;
+		margin-bottom: 0.35rem;
+		font-size: 0.8rem;
+		letter-spacing: 0.04em;
+		color: var(--text-faint);
+	}
+
+	.arc h3 {
+		margin: 0 0 0.45rem;
+		font-size: 1.15rem;
+	}
+
+	.arc p {
+		margin: 0;
+		color: var(--text-muted);
+		line-height: 1.65;
+	}
+
+	.highlights {
+		display: grid;
+		gap: 1.75rem;
+	}
+
+	.highlight {
+		padding-bottom: 1.75rem;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.highlight:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+
+	.highlight h3 {
+		margin: 0 0 0.5rem;
+		font-size: 1.15rem;
+	}
+
+	.highlight p {
+		margin: 0;
+		color: var(--text-muted);
+		line-height: 1.65;
+	}
+
+	.features {
+		margin: 0;
+		padding-left: 1.15rem;
+		color: var(--text-muted);
+	}
+
+	.features li {
+		margin-bottom: 0.55rem;
+	}
+
+	.back {
+		margin: 3rem 0 0;
+		padding-top: 2rem;
+		border-top: 1px solid var(--line);
+	}
+
+	.back a {
 		text-decoration: none;
-		border-radius: 8px;
-		transition: all 0.2s ease;
+		color: var(--text-muted);
 	}
-	
-	.legal-link:hover {
-		background: var(--accent);
-		color: white;
-		transform: translateY(-2px);
+
+	.back a:hover {
+		color: #fff;
 	}
-	
+
 	@media (max-width: 720px) {
-		.legal-links {
-			flex-direction: column;
-		}
-		
-		.tech-stack {
-			justify-content: center;
+		.snapshot-row {
+			grid-template-columns: 1fr;
+			gap: 0.35rem;
 		}
 	}
-</style> 
+</style>

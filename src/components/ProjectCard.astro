@@ -1,0 +1,127 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+	project: Project;
+	featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+---
+
+<article class:list={['project', { featured }]} data-aos="fade-up">
+	<a class="project-link" href={`/projects/${project.name}`}>
+		<div class="meta">
+			{project.period && <span class="period">{project.period}</span>}
+			<span class="status">{project.status}</span>
+		</div>
+		<h3>{project.title}</h3>
+		<p class="tagline">{project.tagline}</p>
+		<p class="summary">{project.summary}</p>
+		{project.sector && <p class="sector">{project.sector}</p>}
+		<ul class="tech" aria-label="Technologies">
+			{project.tech.slice(0, 6).map((t) => <li>{t}</li>)}
+		</ul>
+		<span class="cta">Read case study →</span>
+	</a>
+</article>
+
+<style>
+	.project {
+		border-top: 1px solid var(--line);
+	}
+
+	.project-link {
+		display: block;
+		padding: 2.25rem 0;
+		text-decoration: none;
+		color: inherit;
+		transition: opacity 0.35s var(--ease-out);
+	}
+
+	.project-link:hover {
+		opacity: 0.92;
+	}
+
+	.project-link:hover .cta {
+		color: #fff;
+		transform: translateX(4px);
+	}
+
+	.meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1.25rem;
+		margin-bottom: 0.85rem;
+		font-size: 0.8rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--text-faint);
+	}
+
+	.status {
+		color: var(--text-muted);
+	}
+
+	h3 {
+		margin: 0 0 0.4rem;
+		font-size: clamp(1.5rem, 3vw, 1.85rem);
+		color: var(--text);
+	}
+
+	.tagline {
+		margin: 0 0 1rem;
+		color: var(--text-muted);
+		font-size: 1.05rem;
+	}
+
+	.summary {
+		margin: 0 0 1rem;
+		color: var(--text-muted);
+		font-size: 0.98rem;
+		line-height: 1.65;
+		max-width: 42rem;
+	}
+
+	.featured .summary {
+		display: -webkit-box;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.sector {
+		margin: 0 0 1.25rem;
+		font-size: 0.85rem;
+		color: var(--text-faint);
+	}
+
+	.tech {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		list-style: none;
+		margin: 0 0 1.35rem;
+		padding: 0;
+	}
+
+	.tech li {
+		margin: 0;
+		padding: 0.25rem 0.65rem;
+		font-size: 0.75rem;
+		color: var(--text-muted);
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		letter-spacing: 0.02em;
+	}
+
+	.cta {
+		display: inline-block;
+		font-size: 0.9rem;
+		color: var(--accent);
+		transition:
+			color 0.3s var(--ease-out),
+			transform 0.3s var(--ease-out);
+	}
+</style>

@@ -3,26 +3,19 @@ const today = new Date();
 ---
 
 <footer>
-	<div class="footer-content">
-		<p>&copy; {today.getFullYear()} JejeLena. All rights reserved.</p>
-
-	</div>
+	<p>&copy; {today.getFullYear()} Aiman Farhan</p>
 </footer>
+
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
+		padding: 2rem 1.25rem 4rem;
 		text-align: center;
 	}
-	
-	.footer-content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1em;
-	}
-	.separator {
-		color: rgb(var(--gray));
+
+	p {
+		margin: 0;
+		font-size: 0.8rem;
+		color: var(--text-faint);
+		letter-spacing: 0.04em;
 	}
 </style>
